@@ -22,11 +22,14 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: true
 
+      - name: Restore NuGet packages
+        run: dotnet restore ./DeploymentToolV3\DeploymentToolV3/DeploymentToolV3.sln
+
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build ./subdirectory/MyProject.sln --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish ./DeploymentToolV3\DeploymentToolV3/DeploymentToolV3.sln -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
