@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI", "WebAPI", "{BBC311
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{1DAEBB40-F4B5-4A0F-8047-EDAD40DE3EC3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{5F3BF66F-E5B6-4758-9A62-7BBA3BE17C98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{3ACF87C8-EDFC-488C-B31D-718340A63EE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,12 +23,17 @@ Global
 		{1DAEBB40-F4B5-4A0F-8047-EDAD40DE3EC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DAEBB40-F4B5-4A0F-8047-EDAD40DE3EC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DAEBB40-F4B5-4A0F-8047-EDAD40DE3EC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ACF87C8-EDFC-488C-B31D-718340A63EE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ACF87C8-EDFC-488C-B31D-718340A63EE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ACF87C8-EDFC-488C-B31D-718340A63EE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ACF87C8-EDFC-488C-B31D-718340A63EE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1DAEBB40-F4B5-4A0F-8047-EDAD40DE3EC3} = {9240CD4D-CBF7-4AC0-B974-A81D18B1E631}
+		{3ACF87C8-EDFC-488C-B31D-718340A63EE6} = {BBC311B7-EA78-40D4-9675-07122DEF02EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83B179FB-C168-4A40-9015-6E50EE736E02}
