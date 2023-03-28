@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Data
 {
-    
 
-   
-    public class UserData
+
+
+    public class UserData : IUserData
     {
         private readonly ISQLDataAccess _db;
 
@@ -25,9 +25,9 @@ namespace DataAccess.Data
             return _db.LoadData<UserModel, dynamic>(stroredProcedure: "", new { });
         }
 
-        public  async Task<UserModel?> GetUserById(int id) 
+        public async Task<UserModel?> GetUserById(int id)
         {
-            var results = await _db.LoadData<UserModel,dynamic>(stroredProcedure:"",new { Id=id });
+            var results = await _db.LoadData<UserModel, dynamic>(stroredProcedure: "", new { Id = id });
             return results.FirstOrDefault();
         }
 
