@@ -50,6 +50,8 @@ namespace DataAccess.Models
             public DateTime? dtUpdatedOn { get; set; }
 
             public bool? bDeleted { get; set; }
+
+            
         }
 
     }

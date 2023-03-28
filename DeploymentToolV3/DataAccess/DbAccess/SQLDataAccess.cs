@@ -32,10 +32,10 @@ namespace DataAccess.DbAccess
             using IDbConnection connection = new SqlConnection(_config.GetConnectionString(connectionId));
             await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
-       //var parameters = new { FirstName = "John", LastName = "Doe" };
-       //var outputParameters = new { UserId = 0 };
-       //await _db.SaveData("InsertUser", parameters, outputParameters);
-       //Console.WriteLine($"Inserted user with id {outputParameters.UserId}");
+        //var parameters = new { FirstName = "John", LastName = "Doe" };
+        //var outputParameters = new { UserId = 0 };
+        //await _db.SaveData("InsertUser", parameters, outputParameters);
+        //Console.WriteLine($"Inserted user with id {outputParameters.UserId}");
 
         public async Task SaveData<T, TOutput>(
         string storedProcedure,
