@@ -27,6 +27,9 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build ./DeploymentToolV3/DeploymentToolV3.sln --configuration Release
+        
+      - name: Copy FrontEnd folder to output directory
+        run: cp -r ./DeploymentToolV3/FrontEnd ./DeploymentToolV3/bin/Release/net6.0/publish/
 
       - name: dotnet publish
         run: dotnet publish ./DeploymentToolV3/DeploymentToolV3.sln -c Release -o ${{env.DOTNET_ROOT}}/myapp
