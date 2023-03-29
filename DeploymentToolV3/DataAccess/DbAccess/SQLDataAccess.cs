@@ -38,7 +38,7 @@ namespace DataAccess.DbAccess
         //await _db.SaveData("InsertUser", parameters, outputParameters);
         //Console.WriteLine($"Inserted user with id {outputParameters.UserId}");
 
-        public async Task SaveData<T, TOutput>(
+        public async Task<Dictionary<string, object>> SaveData<T, TOutput>(
         string storedProcedure,
         T parameters,
         TOutput outputParameters,
@@ -49,17 +49,21 @@ namespace DataAccess.DbAccess
 
             foreach (var property in typeof(TOutput).GetProperties())
             {
-                dynamicParameters.Add(property.Name, direction: ParameterDirection.Output);
+                dynamicParameters.Add(property.Name, direction: ParameterDirection.Output, size: property.ToString().Length);
             }
 
             await connection.ExecuteAsync(storedProcedure, dynamicParameters, commandType: CommandType.StoredProcedure);
-
+            Dictionary<string, object> outparam = new Dictionary<string, object>();
             foreach (var property in typeof(TOutput).GetProperties())
             {
                 var value = dynamicParameters.Get<dynamic>(property.Name);
-                property.SetValue(outputParameters, value);
+                outparam.Add(property.Name, value);
+                // property.SetValue(outputParameters, value);
             }
+
+            return outparam;
         }
+
 
         //var inputParams = new { Param1 = "value1", Param2 = 2 };
         //var outputParams = new { OutputParam1 = string.Empty, OutputParam2 = 0 };
