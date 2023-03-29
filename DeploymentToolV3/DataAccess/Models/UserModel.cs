@@ -9,8 +9,7 @@ namespace DataAccess.Models
 {
     public class UserModel
     {
-        public class User
-        {
+        
             [Key]
             public int? aUserID { get; set; }
 
@@ -18,11 +17,9 @@ namespace DataAccess.Models
             [StringLength(255)]
             public string tName { get; set; }
 
+            [Required]
             [StringLength(255)]
-            public string tUserName { get; set; }
-
-            [StringLength(255)]
-            public string tPassword { get; set; }
+            public string tUserName { get; set; }            
 
             [StringLength(255)]
             [EmailAddress]
@@ -51,8 +48,12 @@ namespace DataAccess.Models
 
             public bool? bDeleted { get; set; }
 
-            
-        }
+            public List<int>? nBrandID { get; set; }
+
+            public List<int>? nFunctionID { get; set; }
+
+
+        
 
     }
 }

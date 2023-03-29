@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using Dapper;
 using System.Data;
 using static Dapper.SqlMapper;
+using static DataAccess.Models.UserModel;
 
 namespace DataAccess.DbAccess
 {
@@ -74,18 +75,23 @@ namespace DataAccess.DbAccess
             using IDbConnection connection = new SqlConnection(_config.GetConnectionString(connectionId));
             var dynamicParameters = new DynamicParameters(parameters);
 
-            foreach (var property in typeof(TOutput).GetProperties())
+            if (outputParameters != null)
             {
+                foreach (var property in typeof(TOutput).GetProperties())
+                {
 
-                dynamicParameters.Add(property.Name, direction: ParameterDirection.Output);
+                    dynamicParameters.Add(property.Name, direction: ParameterDirection.Output);
+                }
             }
 
             var result = await connection.QueryAsync<T>(storedProcedure, dynamicParameters, commandType: CommandType.StoredProcedure);
-
-            foreach (var property in typeof(TOutput).GetProperties())
+            if (outputParameters != null)
             {
-                var value = dynamicParameters.Get<dynamic>(property.Name);
-                property.SetValue(outputParameters, value);
+                foreach (var property in typeof(TOutput).GetProperties())
+                {
+                    var value = dynamicParameters.Get<dynamic>(property.Name);
+                    property.SetValue(outputParameters, value);
+                }
             }
 
             return result;
@@ -95,12 +101,34 @@ namespace DataAccess.DbAccess
         public async Task<T> ExecuteScalar<T, U>(
         string storedProcedure,
         U parameters,
+
         string connectionId = "Default")
         {
             using IDbConnection connection = new SqlConnection(_config.GetConnectionString(connectionId));
             var result = await connection.ExecuteScalarAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
             return result;
         }
+
+
+        public async Task<(TModel, List<int>, List<int>)> LoadDataWithLists<TModel>(
+        string storedProcedure,
+        object parameters,
+        string connectionId = "Default")
+        {
+            using IDbConnection connection = new SqlConnection(_config.GetConnectionString(connectionId));
+            var dynamicParameters = new DynamicParameters(parameters);
+
+            using var multi = await connection.QueryMultipleAsync(storedProcedure, dynamicParameters, commandType: CommandType.StoredProcedure);
+
+            var model = await multi.ReadSingleOrDefaultAsync<TModel>();
+            var list1 = (await multi.ReadAsync<int>()).ToList();
+            var list2 = (await multi.ReadAsync<int>()).ToList();
+
+            return (model, list1, list2);
+        }
+
+
+
 
 
 

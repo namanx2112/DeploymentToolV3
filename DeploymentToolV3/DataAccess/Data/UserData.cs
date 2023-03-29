@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DataAccess.Models.UserModel;
 
 namespace DataAccess.Data
 {
@@ -20,15 +21,19 @@ namespace DataAccess.Data
             _db = db;
         }
 
-        public Task<IEnumerable<UserModel>> GetUsers()
+        public async Task<IEnumerable<UserModel>> GetUsers()
         {
-            return _db.LoadData<UserModel, dynamic>(stroredProcedure: "", new { });
+            return await _db.LoadData<UserModel, dynamic>(stroredProcedure: "", new { });
         }
 
-        public async Task<UserModel?> GetUserById(int id)
+        public async Task<UserModel> GetUserById(int id)
         {
-            var results = await _db.LoadData<UserModel, dynamic>(stroredProcedure: "", new { Id = id });
-            return results.FirstOrDefault();
+            var parameters = new { nUserID = id };
+            var result = await _db.LoadDataWithLists<UserModel>("sproc_GetUserDetails", new { nUserID = id });
+            UserModel model = result.Item1;
+            model.nBrandID = result.Item2;
+            model.nFunctionID = result.Item3;
+            return model;
         }
 
         public async Task InsertUser(UserModel user)
