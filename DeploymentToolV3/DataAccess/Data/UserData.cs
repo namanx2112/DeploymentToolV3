@@ -63,29 +63,58 @@ namespace DataAccess.Data
                 udfUserBrandRel = ConvertListToDataTable(user.nBrandID, "nBrandID")
                 ,
                 udfUserFunctionRel = ConvertListToDataTable(user.nFunctionID, "nFunctionID")
-        };
+            };
             var outputParameters = new { nUserID = 0 };
             var result = await _db.SaveData("SPROC_AddUser", inputParams, outputParameters);
             if (result.TryGetValue("nUserID", out object value))
             {
                 user.aUserID = value != null && int.TryParse(value.ToString(), out int val) ? val : 0;
             }
-            
+
             return user;
 
+        }
+
+        public async Task<UserModel> UpdateUser(UserModel user)
+        {
+            var inputParams = new
+            {
+                nUserID = user.aUserID,
+                tName = user.tUserName,
+                tUserName = user.tUserName,
+                tEmail = user.tEmail,
+                tMobile = user.tMobile,
+                nLoggedinUserID = 1,
+                nDepartment = user.nDepartment,
+                nRole = user.nRole,
+                tEmpID = user.tEmpID,
+                udfUserBrandRel = ConvertListToDataTable(user.nBrandID, "nBrandID"),
+                udfUserFunctionRel = ConvertListToDataTable(user.nFunctionID, "nFunctionID")
+
+            };
+            var outputParameters = new { isSuccess = 0 };
+            var result = await _db.SaveData("SPROC_UpdateUser", inputParams, outputParameters);
+            return user;
+
+        }
+
+        public async Task DeleteUser(int id)
+        {
+
+            await _db.SaveData("SPROC_DeleteUser", new { aUserID = id, nLoggedinUserID = 1 }, new { isSuccess = 0 });
         }
         private static string GenerateRandomPassword()
         {
             const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=[]{}|;:,./<>?"; // All valid characters for the password
-            int passwordLength = 8; 
-            int requiredCharsCount = 4; 
+            int passwordLength = 8;
+            int requiredCharsCount = 4;
 
             StringBuilder password = new StringBuilder();
 
 
             password.Append(RandomChar(validChars, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
             password.Append(RandomChar(validChars, "abcdefghijklmnopqrstuvwxyz"));
-            password.Append(RandomChar(validChars, "1234567890")); 
+            password.Append(RandomChar(validChars, "1234567890"));
             password.Append(RandomChar(validChars, "!@#$%^&*()_+-=[]{}|;:,./<>?"));
 
 
