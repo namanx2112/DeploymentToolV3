@@ -11,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ISQLDataAccess, SQLDataAccess>();
 builder.Services.AddSingleton<IUserData,UserData>();
+builder.Services.AddSingleton<IBrandData, BrandData>();
 
 var app = builder.Build();
 
@@ -27,4 +28,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.ConfigureUserController();
+app.ConfigureBrandController();
 app.Run();
