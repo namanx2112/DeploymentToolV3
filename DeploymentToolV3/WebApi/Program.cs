@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ISQLDataAccess, SQLDataAccess>();
 builder.Services.AddSingleton<IUserData,UserData>();
 builder.Services.AddSingleton<IBrandData, BrandData>();
+builder.Services.AddSingleton<IProjectNoteData, ProjectNoteData>();
 
 var app = builder.Build();
 
@@ -29,4 +30,5 @@ app.UseAuthorization();
 app.MapControllers();
 app.ConfigureUserController();
 app.ConfigureBrandController();
+app.ConfigureProjectNoteController();
 app.Run();
